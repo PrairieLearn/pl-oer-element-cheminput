@@ -3,18 +3,8 @@
     Questions below were designed to showcase the different features of
     <code>pl-chem-input</code> The goal of
     <code>pl-chem-input</code> is to allow users to enter
-    <b>chemical equation</b>. The correct answer in all questions below is
+    <b>chemical equations</b>. The correct answer in all questions below is
     2H<sub>2</sub>O(l) -> 2H<sub>2</sub>(g) + O<sub>2</sub>(g).
-  </p>
-
-  <p>
-    The states of matter will not be graded unless stated otherwise. Including
-    them when they are not graded will not cause you to lose points, but you will 
-    be penalized for excluding them when they are graded.
-  </p>
-
-  <p>
-   Feedback will be provided unless stated otherwise.
   </p>
 </pl-question-panel>
 
@@ -27,13 +17,14 @@
         <code>pl-chem-input</code> element. This example illustrates
         a question with a weight of 1 and a placeholder text set to "Your answer
         here." The <code>allow-blank</code> attribute is set to
-        <code>false</code>, requiring students to provide an answer before
-        submission. Additionally, the help text is displayed, and the editor's
-        default size is set to 100, spanning the entire line. The score badge
-        will appear once the "Submit Answer" button is clicked.
+        <code>false</code>, requiring students to provide an answer in their
+        submission. Because the <code>grade-states</code>, attribute is not set,
+        states of matter are optional and not considered during grading. 
+        The editor's default size is set to 100, spanning the entire line. 
+        A score badge will appear once the "Submit Answer" button is clicked.
       </p>
       <p>
-        Electrolysis Reaction: Instruction: Write the chemical equation for the
+        Instruction: Write the chemical equation for the
         electrolysis of water (H<sub>2</sub>O) into hydrogen gas (H<sub>2</sub>)
         and oxygen gas (O<sub>2</sub>).
       </p>
@@ -47,17 +38,16 @@
   <div class="card-body">
     <pl-question-panel>
       <p>
-        This question demonstrates the use of different sizes for the
-        <code>pl-chem-input</code> element on the page. Specifically,
+        This question demonstrates some basic settings for the
+        <code>pl-chem-input</code> element. Specifically,
         the input field in this example is configured with the
-        <code>size="50"</code> attribute, resulting in a width of 50%.
-        Additionally, the weight assigned to this question is higher compared to
-        the preceding ones with configuration of <code>weight="5"</code>. Lastly,
-        the <code>grade-states="true"</code>attribute will ensure that the states of
-        matter are graded as well.
+        <code>size="50"</code> attribute, resulting in a width of 50% of the panel area.
+        Additionally, the weight assigned to this question is higher (<code>weight="5"</code>). 
+        Lastly, the <code>grade-states="true"</code> attribute requires states of
+        matter to be provided by the student, penalizing them if they are missing.
       </p>
       <p>
-        Electrolysis Reaction: Instruction: Write the chemical equation for the
+        Instruction: Write the chemical equation for the
         electrolysis of water (H<sub>2</sub>O) into hydrogen gas (H<sub>2</sub>)
         and oxygen gas (O<sub>2</sub>). Include states of matter to get credit.
       </p>
@@ -83,7 +73,7 @@
         attribute will prevent feedback from being displayed.
       </p>
       <p>
-        Electrolysis Reaction: Instruction: Write the chemical equation for the
+        Instruction: Write the chemical equation for the
         electrolysis of water (H<sub>2</sub>O) into hydrogen gas (H<sub>2</sub>)
         and oxygen gas (O<sub>2</sub>).
       </p>
@@ -107,10 +97,10 @@
         <code>prefill="H_2O -> H_2 + O_2"</code>. Additionally, the help text is
         disabled, as specified by the
         <code>show-help-text="false"</code> attribute. Lastly,
-        the <code>grade-states="true"</code>attribute will ensure that the states of
+        the <code>grade-states="true"</code> attribute will ensure that the states of
         matter are graded as well.
       </p>
-      <p>Balance the following equation. Also, fill in the states of matter to get credit.:</p>
+      <p>Balance the following equation. Also, fill in the states of matter to get credit.</p>
     </pl-question-panel>
     <pl-chem-input
       question-name="ans4"

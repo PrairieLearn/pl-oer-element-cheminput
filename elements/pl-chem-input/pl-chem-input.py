@@ -106,7 +106,7 @@ def render(element_html, data):
     )
 
     element_text = element_inner_html(element)
-    help_text = "The leftmost button is the subscript button, the middle button is the superscript button, and the rightmost button is the clear formatting button. Any value can be inputted in place of x or 2 for the superscript and subscript values. You can use -> (dash and greater than sign) to indicate an arrow. States of matter can be indicates using (l), (s), and (g)."
+    help_text = "The leftmost button switches to subscript, the middle button to superscript, and the rightmost button clears the formatting. You can use -> (dash and greater than sign) to indicate an arrow. States of matter can be indicated using (l), (s), and (g)."
     if data["panel"] == "question" or data["panel"] == "submission":
         html_params = {
             "name": answer_name,
