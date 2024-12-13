@@ -1,0 +1,89 @@
+<script>
+$(function() {
+    var rte = window.PLRTE('{{editor_uuid}}', {
+        readOnly: {{read_only}},
+        placeholder: '{{placeholder}}',
+        format: '{{format}}',
+        markdownShortcuts: {{markdown_shortcuts}},
+        {{#quill_theme}}
+        theme: '{{.}}',
+        {{/quill_theme}}
+        helpText: '{{help_text}}'
+    });
+});
+</script>
+{{#question}}
+<div class="d-flex align-items-center">
+  <input type="hidden" id="rte-input-{{editor_uuid}}"
+         name="{{name}}" value="{{{current_file_contents}}}"/>
+  
+  <!-- Rich Text Editor Container -->
+  <div class="pl-rich-text-editor-container me-3" {{#size}}style="width:{{size}}%;"{{/size}}>
+      {{#show_help_text}}
+        <div class="pl-rich-text-editor-header mb-2">
+          <button type="button" id="rte-help-btn-{{editor_uuid}}" class="btn btn-info btn-sm">Help</button>
+        </div>
+      {{/show_help_text}}
+      <div id="rte-{{editor_uuid}}" class="border mathjax_ignore"></div>
+  </div>
+
+  <!-- Badge -->
+  {{#show_score}}
+  <div class="score-badge">
+    {{#correct}}<span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"></i> 100%</span>{{/correct}}
+    {{#partial}}<span class="badge badge-warning"><i class="fa fa-circle-o" aria-hidden="true"></i> {{partial}}%</span>{{/partial}}
+    {{#incorrect}}<span class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i> 0%</span>{{/incorrect}}
+  </div>
+  {{/show_score}}
+</div>
+
+<!-- Help Modal -->
+<div id="rte-help-modal-{{editor_uuid}}" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editor Help</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="rte-help-close-{{editor_uuid}}">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>{{help_text}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{/question}}
+
+{{#submission}}
+<div class="d-flex align-items-center">
+  <input type="hidden" id="rte-input-{{editor_uuid}}"
+         name="{{name}}" value="{{{current_file_contents}}}"/>
+  <div class="pl-rich-text-editor-container me-3" {{#size}}style="width:{{size}}%;"{{/size}}>
+      <div id="rte-{{editor_uuid}}" class="border mathjax_ignore"></div>
+  </div>
+  {{#show_score}}
+  <div class="score-badge">
+    {{#correct}}<span class="badge badge-success"><i class="fa fa-check" aria-hidden="true"></i> 100%</span>{{/correct}}
+    {{#partial}}<span class="badge badge-warning"><i class="fa fa-circle-o" aria-hidden="true"></i> {{partial}}%</span>{{/partial}}
+    {{#incorrect}}<span class="badge badge-danger"><i class="fa fa-times" aria-hidden="true"></i> 0%</span>{{/incorrect}}
+  </div>
+  {{/show_score}}
+</div>
+{{#feedback}}
+  <div class="pl-chem-feedback mt-2">
+      {{{feedback}}}
+  </div>
+{{/feedback}}
+
+{{/submission}}
+
+
+{{#answer}}
+<input type="hidden" id="rte-input-{{editor_uuid}}"
+       name="{{name}}" value="{{{answer_contents}}}"/>
+  <div class="pl-rich-text-editor-container" {{#size}}style="width:{{size}}%;"{{/size}}>
+      <div id="rte-{{editor_uuid}}" class="border mathjax_ignore"></div>
+  </div>
+{{/answer}}

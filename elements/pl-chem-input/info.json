@@ -1,0 +1,20 @@
+{
+    "controller": "pl-chem-input.py",
+    "dependencies": {
+      "nodeModulesScripts": [
+        "quill/dist/quill.js",
+        "quilljs-markdown/dist/quilljs-markdown.js",
+        "showdown/dist/showdown.js",
+        "he/he.js",
+        "dompurify/dist/purify.min.js"
+      ],
+      "nodeModulesStyles": [
+        "quill/dist/quill.snow.css",
+        "quill/dist/quill.bubble.css",
+        "quilljs-markdown/dist/quilljs-markdown-common-style.css"
+      ],
+      "elementScripts": ["pl-chem-input.js"],
+      "elementStyles": ["pl-chem-input.css"]
+    }
+  }
+  

@@ -1,0 +1,148 @@
+<pl-question-panel>
+  <p>
+    Questions below were designed to showcase the different features of
+    <code>pl-chem-input</code> The goal of
+    <code>pl-chem-input</code> is to allow users to enter
+    <b>chemical equation</b>. The correct answer in all questions below is
+    2H<sub>2</sub>O(l) -> 2H<sub>2</sub>(g) + O<sub>2</sub>(g).
+  </p>
+
+  <p>
+    The states of matter will not be graded unless stated otherwise. Including
+    them when they are not graded will not cause you to lose points, but you will 
+    be penalized for excluding them when they are graded.
+  </p>
+
+  <p>
+   Feedback will be provided unless stated otherwise.
+  </p>
+</pl-question-panel>
+
+<div class="card my-2">
+  <div class="card-header">Part 1</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        The following demonstrates the default behavior of the
+        <code>pl-chem-input</code> element. This example illustrates
+        a question with a weight of 1 and a placeholder text set to "Your answer
+        here." The <code>allow-blank</code> attribute is set to
+        <code>false</code>, requiring students to provide an answer before
+        submission. Additionally, the help text is displayed, and the editor's
+        default size is set to 100, spanning the entire line. The score badge
+        will appear once the "Submit Answer" button is clicked.
+      </p>
+      <p>
+        Electrolysis Reaction: Instruction: Write the chemical equation for the
+        electrolysis of water (H<sub>2</sub>O) into hydrogen gas (H<sub>2</sub>)
+        and oxygen gas (O<sub>2</sub>).
+      </p>
+    </pl-question-panel>
+    <pl-chem-input question-name="ans1"></pl-chem-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 2</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This question demonstrates the use of different sizes for the
+        <code>pl-chem-input</code> element on the page. Specifically,
+        the input field in this example is configured with the
+        <code>size="50"</code> attribute, resulting in a width of 50%.
+        Additionally, the weight assigned to this question is higher compared to
+        the preceding ones with configuration of <code>weight="5"</code>. Lastly,
+        the <code>grade-states="true"</code>attribute will ensure that the states of
+        matter are graded as well.
+      </p>
+      <p>
+        Electrolysis Reaction: Instruction: Write the chemical equation for the
+        electrolysis of water (H<sub>2</sub>O) into hydrogen gas (H<sub>2</sub>)
+        and oxygen gas (O<sub>2</sub>). Include states of matter to get credit.
+      </p>
+    </pl-question-panel>
+    <pl-chem-input
+      question-name="ans2"
+      size="50"
+      weight="5"
+      grade-states="true"
+    ></pl-chem-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 3</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This question demonstrates the functionality of the
+        <code>allow-blank</code> attribute. In this example, the configuration
+        <code>allow-blank="true"</code> permits the question to be submitted
+        with a blank response. Additionally, the <code>include-feedback="false"</code>
+        attribute will prevent feedback from being displayed.
+      </p>
+      <p>
+        Electrolysis Reaction: Instruction: Write the chemical equation for the
+        electrolysis of water (H<sub>2</sub>O) into hydrogen gas (H<sub>2</sub>)
+        and oxygen gas (O<sub>2</sub>).
+      </p>
+    </pl-question-panel>
+    <pl-chem-input
+      question-name="ans3"
+      allow-blank="true"
+      include-feedback="false"
+    ></pl-chem-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 4</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This question showcases the <code>prefill</code> functionality of the
+        <code>pl-chem-input</code> element. In this example, the
+        input field is pre-configured with the attribute
+        <code>prefill="H_2O -> H_2 + O_2"</code>. Additionally, the help text is
+        disabled, as specified by the
+        <code>show-help-text="false"</code> attribute. Lastly,
+        the <code>grade-states="true"</code>attribute will ensure that the states of
+        matter are graded as well.
+      </p>
+      <p>Balance the following equation. Also, fill in the states of matter to get credit.:</p>
+    </pl-question-panel>
+    <pl-chem-input
+      question-name="ans4"
+      show-help-text="false"
+      prefill="H_2O -> H_2 + O_2"
+      grade-states ="true"
+    ></pl-chem-input>
+  </div>
+</div>
+
+<div class="card my-2">
+  <div class="card-header">Part 5</div>
+  <div class="card-body">
+    <pl-question-panel>
+      <p>
+        This question highlights the <code>directory</code> and
+        <code>source-file-name</code> functionalities of the
+        <code>pl-chem-input</code> element. In this example, the
+        input field is configured with the attributes
+        <code>directory="source"</code> and
+        <code>source-file-name="part5"</code>. The corresponding source file
+        contains the content <code>H_2O -> H_2 + O_2</code>. Additionally, the
+        <code>show-score</code> attribute is set to <code>false</code>,
+        preventing the score badge from being displayed. 
+      </p>
+      <p>Balance the following equation:</p>
+    </pl-question-panel>
+    <pl-chem-input
+      question-name="ans5"
+      directory="source"
+      source-file-name="part5"
+      show-score="false"
+    ></pl-chem-input>
+  </div>
+</div>
