@@ -2,11 +2,15 @@
     "uuid": "f57a491a-7ebe-4d7d-8800-b5669274db00",
     "name": "OER 303",
     "title": "Element: Chemistry Input",
+
     "assessmentSets": [
     ],
     "options": {
         "useNewQuestionRenderer": true
     },
+    "topics": [
+
+    ],
     "tags": [
     {"name": "author:prairielearn.com", "color": "blue3", "description": "questions created by the Prairielearn team"},
         {"name": "license:CC-BY-NC", "color": "yellow3", "description": "license for all prairielearn.com questions"}
