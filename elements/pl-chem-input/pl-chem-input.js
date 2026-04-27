@@ -8,7 +8,7 @@
       }
     });
   
-    window.PLRTE = function (uuid, options) {
+    window.PLRTE = async function (uuid, options) {
       if (!options.modules) options.modules = {};
       if (options.readOnly) {
         options.modules.toolbar = false;
@@ -64,29 +64,24 @@
   
       let inputElement = $('#rte-input-' + uuid);
       let quill = new Quill('#rte-' + uuid, options);
-      let renderer = null;
-      if (options.format === 'markdown') {
-        renderer = new showdown.Converter({
-          literalMidWordUnderscores: true,
-          literalMidWordAsterisks: true,
-        });
-      }
   
       if (options.markdownShortcuts && !options.readOnly) new QuillMarkdown(quill, {});
   
       let contents = atob(inputElement.val());
-      if (contents && renderer) contents = renderer.makeHtml(contents);
+      if (contents && options.format === 'markdown') {
+        const marked = (await import('marked')).marked;
+        contents = marked.parse(contents);
+      }
       contents = rtePurify.sanitize(contents, rtePurifyConfig);
   
       quill.setContents(quill.clipboard.convert({ html: contents }));
   
       const getText = () => quill.getText();
   
-      quill.on('text-change', function () {
+      const updateHiddenInput = function () {
         let contents = quill.editor?.isBlank?.()
           ? ''
           : rtePurify.sanitize(quill.getSemanticHTML(), rtePurifyConfig);
-        if (contents && renderer) contents = renderer.makeMarkdown(contents);
         inputElement.val(
           btoa(
             he.encode(contents, {
@@ -95,8 +90,11 @@
             }),
           ),
         );
-  
-      });
+      };
+      
+      quill.on('text-change', updateHiddenInput);
+      updateHiddenInput();
+
       $('#rte-help-btn-' + uuid).on('click', function () {
         $('#rte-help-modal-' + uuid).modal('show');
       });

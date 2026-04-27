@@ -90,11 +90,6 @@ def render(element_html, data):
         size = str(max(min(int(size), 100), 0))
     except (ValueError, TypeError):
         size = SIZE_DEFAULT
-    
-    if show_help_text == False:
-        show_help_text = None
-    elif show_help_text == True:
-        show_help_text = True
 
     uuid = pl.get_uuid()
     source_file_name = pl.get_string_attrib(
@@ -243,9 +238,9 @@ def grade(element_html, data):
     element = lxml.html.fragment_fromstring(element_html)
     question_name = pl.get_string_attrib(element, "question-name", "")
     weight = pl.get_integer_attrib(element, "weight", WEIGHT_DEFAULT)
-    grade_states = show_score = pl.get_boolean_attrib(element, "grade-states", GRADE_STATES_DEFAULT)
+    grade_states = pl.get_boolean_attrib(element, "grade-states", GRADE_STATES_DEFAULT)
     include_feedback = pl.get_boolean_attrib(element, "include-feedback", INCLUDE_FEEDBACK_DEFAULT)
-    file_contents_encode = None
+    file_contents_encode = ""
     for file in data["submitted_answers"]["_files"]:
         if file["name"] == question_name:
             file_contents_encode = file["contents"]
@@ -255,7 +250,7 @@ def grade(element_html, data):
     reactants, products, states_of_matter, coefficients = parse_answer(student_answer, "-&gt;")
 
     actual_answer = pl.from_json(data["correct_answers"].get(question_name, None))
-    if actual_answer != None:
+    if actual_answer is not None:
         actual_answer = format_latex(actual_answer)
     reactants2, products2, states_of_matter2, coefficients2 = parse_answer(actual_answer, "/rarrow")
     reactants_correct = True
@@ -273,7 +268,7 @@ def grade(element_html, data):
     if reactants_correct and products_correct and states_of_matter_correct and coefficients_correct:
         data["partial_scores"][question_name]={"score": 1, "weight":weight}
     else:
-        feedback_string = "There are issues with your: "
+        feedback_string = "There are issues with your "
         if not reactants_correct:
             feedback_string += "reactants"
         if not products_correct:
