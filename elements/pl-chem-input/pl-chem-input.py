@@ -1,7 +1,6 @@
 import base64
 import hashlib
 import os
-from enum import Enum
 import re
 import chevron
 import lxml.html
@@ -51,7 +50,7 @@ def prepare(element_html, data):
         "show-score",
         "weight",
         "grade-states",
-        "include-feedback"
+        "include-feedback",
     ]
     pl.check_attribs(element, required_attribs, optional_attribs)
     source_file_name = pl.get_string_attrib(
@@ -80,7 +79,9 @@ def render(element_html, data):
     answer_name = get_answer_name(file_name)
     quill_theme = pl.get_string_attrib(element, "quill-theme", QUILL_THEME_DEFAULT)
     placeholder = pl.get_string_attrib(element, "placeholder", PLACEHOLDER_DEFAULT)
-    show_help_text = pl.get_boolean_attrib(element, "show-help-text", SHOW_HELP_TEXT_DEFAULT)
+    show_help_text = pl.get_boolean_attrib(
+        element, "show-help-text", SHOW_HELP_TEXT_DEFAULT
+    )
     prefill = pl.get_string_attrib(element, "prefill", PREFILL_DEFAULT)
     question_name = pl.get_string_attrib(element, "question-name", "")
     show_score = pl.get_boolean_attrib(element, "show-score", SHOW_SCORE_DEFAULT)
@@ -120,12 +121,14 @@ def render(element_html, data):
             "markdown_shortcuts": "true" if markdown_shortcuts else "false",
             "show_help_text": show_help_text,
             "help_text": help_text,
-            "prefill":prefill,
-            "show_score":show_score
+            "prefill": prefill,
+            "show_score": show_score,
         }
 
         if score is not None:
-            html_params["feedback"] = data["partial_scores"].get(question_name, {}).get("feedback")
+            html_params["feedback"] = (
+                data["partial_scores"].get(question_name, {}).get("feedback")
+            )
         if show_score and score is not None:
             score_type, score_value = pl.determine_score_params(score)
             html_params[score_type] = score_value
@@ -141,7 +144,9 @@ def render(element_html, data):
             else:
                 directory = os.path.join(data["options"]["question_path"], directory)
             file_path = os.path.join(directory, source_file_name)
-            text_display = convert_notation_to_html(format_latex(open(file_path).read()))
+            text_display = convert_notation_to_html(
+                format_latex(open(file_path).read())
+            )
         else:
             if element_text is not None:
                 text_display = convert_notation_to_html(format_latex(str(element_text)))
@@ -149,7 +154,7 @@ def render(element_html, data):
                 text_display = ""
         if prefill is not None:
             text_display = convert_notation_to_html(format_latex(prefill))
-        
+
         html_params["original_file_contents"] = base64.b64encode(
             text_display.encode("UTF-8").strip()
         ).decode()
@@ -179,17 +184,23 @@ def render(element_html, data):
             "answer": data["panel"] == "answer",
             "read_only": (
                 "true"
-                if (data["panel"] == "submission" or data["panel"] == "answer" or not data["editable"])
+                if (
+                    data["panel"] == "submission"
+                    or data["panel"] == "answer"
+                    or not data["editable"]
+                )
                 else "false"
             ),
             "format": "html",
             "markdown_shortcuts": "true" if markdown_shortcuts else "false",
             "show_help_text": show_help_text,
             "help_text": help_text,
-            "prefill":prefill,
+            "prefill": prefill,
         }
         raw_answer = data["correct_answers"][question_name]
-        raw_answer_format = format_latex(convert_arrow(convert_notation_to_html(raw_answer)))
+        raw_answer_format = format_latex(
+            convert_arrow(convert_notation_to_html(raw_answer))
+        )
         raw_answer_html = latex_to_html(raw_answer_format)
         html_params["answer_contents"] = base64.b64encode(
             raw_answer_html.encode("UTF-8").strip()
@@ -213,7 +224,9 @@ def parse(element_html, data):
         pl.add_files_format_error(data, f"No submitted answer for {file_name}")
         return
 
-    file_contents_decode = base64.b64decode(file_contents).decode("utf-8").strip() if file_contents else ""
+    file_contents_decode = (
+        base64.b64decode(file_contents).decode("utf-8").strip() if file_contents else ""
+    )
     if not file_contents_decode.startswith("<"):
         file_contents_decode = f"<p>{file_contents_decode}</p>"
     try:
@@ -234,12 +247,15 @@ def parse(element_html, data):
     del data["submitted_answers"][answer_name]
     pl.add_submitted_file(data, file_name, file_contents)
 
+
 def grade(element_html, data):
     element = lxml.html.fragment_fromstring(element_html)
     question_name = pl.get_string_attrib(element, "question-name", "")
     weight = pl.get_integer_attrib(element, "weight", WEIGHT_DEFAULT)
     grade_states = pl.get_boolean_attrib(element, "grade-states", GRADE_STATES_DEFAULT)
-    include_feedback = pl.get_boolean_attrib(element, "include-feedback", INCLUDE_FEEDBACK_DEFAULT)
+    include_feedback = pl.get_boolean_attrib(
+        element, "include-feedback", INCLUDE_FEEDBACK_DEFAULT
+    )
     file_contents_encode = ""
     for file in data["submitted_answers"]["_files"]:
         if file["name"] == question_name:
@@ -247,12 +263,16 @@ def grade(element_html, data):
             break
     student_answer = html_to_latex(base64.b64decode(file_contents_encode))
 
-    reactants, products, states_of_matter, coefficients = parse_answer(student_answer, "-&gt;")
+    reactants, products, states_of_matter, coefficients = parse_answer(
+        student_answer, "-&gt;"
+    )
 
     actual_answer = pl.from_json(data["correct_answers"].get(question_name, None))
     if actual_answer is not None:
         actual_answer = format_latex(actual_answer)
-    reactants2, products2, states_of_matter2, coefficients2 = parse_answer(actual_answer, "/rarrow")
+    reactants2, products2, states_of_matter2, coefficients2 = parse_answer(
+        actual_answer, "/rarrow"
+    )
     reactants_correct = True
     products_correct = True
     coefficients_correct = True
@@ -265,8 +285,13 @@ def grade(element_html, data):
         states_of_matter_correct = False
     if coefficients != coefficients2:
         coefficients_correct = False
-    if reactants_correct and products_correct and states_of_matter_correct and coefficients_correct:
-        data["partial_scores"][question_name]={"score": 1, "weight":weight}
+    if (
+        reactants_correct
+        and products_correct
+        and states_of_matter_correct
+        and coefficients_correct
+    ):
+        data["partial_scores"][question_name] = {"score": 1, "weight": weight}
     else:
         feedback_string = "There are issues with your "
         if not reactants_correct:
@@ -280,15 +305,21 @@ def grade(element_html, data):
                 feedback_string += " and "
             feedback_string += "states of matter"
         if not coefficients_correct:
-           if not reactants_correct or not products_correct or not states_of_matter_correct:
+            if (
+                not reactants_correct
+                or not products_correct
+                or not states_of_matter_correct
+            ):
                 feedback_string += " and "
-           feedback_string += "\ncoefficients"
-        
+            feedback_string += "\ncoefficients"
+
         if not include_feedback:
             feedback_string = "Feedback has been disabled for this question."
-        data["partial_scores"][question_name]={"score": 0, "feedback":feedback_string, "weight":weight}
-       
-
+        data["partial_scores"][question_name] = {
+            "score": 0,
+            "feedback": feedback_string,
+            "weight": weight,
+        }
 
 
 def html_to_latex(html_text):
@@ -313,8 +344,8 @@ def latex_to_html(latex_text):
 
 
 def format_latex(latex_text):
-    latex_text = re.sub(r'_(\w)', r'_{\1}', latex_text)
-    latex_text = re.sub(r'\^(\w)', r'^{\1}', latex_text)
+    latex_text = re.sub(r"_(\w)", r"_{\1}", latex_text)
+    latex_text = re.sub(r"\^(\w)", r"^{\1}", latex_text)
     return latex_text
 
 
@@ -324,8 +355,8 @@ def parse_answer(equation, arrow):
     else:
         left, right = equation, ""
 
-    left = left.split('+')
-    right = right.split('+') if right else []
+    left = left.split("+")
+    right = right.split("+") if right else []
 
     reactants = []
     products = []
@@ -383,11 +414,16 @@ def parse_answer(equation, arrow):
 
     return reactants, products, states_of_matter, coefficients
 
+
 def convert_notation_to_html(text):
-    text = re.sub(r'_(\{[^{}]*\})', lambda m: '<sub>{}</sub>'.format(m.group(1)[1:-1]), text)
-    text = re.sub(r'\^(\{[^{}]*\})', lambda m: '<sup>{}</sup>'.format(m.group(1)[1:-1]), text)
+    text = re.sub(
+        r"_(\{[^{}]*\})", lambda m: "<sub>{}</sub>".format(m.group(1)[1:-1]), text
+    )
+    text = re.sub(
+        r"\^(\{[^{}]*\})", lambda m: "<sup>{}</sup>".format(m.group(1)[1:-1]), text
+    )
     return text
 
-def convert_arrow(text):
-    return text.replace('/rarrow', '-&gt;')
 
+def convert_arrow(text):
+    return text.replace("/rarrow", "-&gt;")
