@@ -244,7 +244,7 @@ def parse(element_html, data):
         pl.add_files_format_error(data, f"Invalid HTML structure in {file_name}")
         return
 
-    del data["submitted_answers"][answer_name]
+    data["submitted_answers"].pop(answer_name, None)
     pl.add_submitted_file(data, file_name, file_contents)
 
 
